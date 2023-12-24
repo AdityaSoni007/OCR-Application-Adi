@@ -1,12 +1,9 @@
 
 const IdCard = require('../models/idCard.model')
 const vision = require('@google-cloud/vision');
-const {fetchDetails} = require('../controllers/idCard.controllers')
 
 
-//============================== Handling Permissions for the API ==============================================
-
-
+//============================== Handling Permissions for the API ===================================
 
 const CREDENTIALS = JSON.parse(JSON.stringify(
     {
@@ -32,8 +29,7 @@ const CONFIG = {
 const client = new vision.ImageAnnotatorClient(CONFIG);
 
 
-
-//============================================= Post Route for OCR ========================================== 
+//===================================== Post Route for OCR ========================================== 
 
 
 function searchAfter(stringResult, search_String) {
@@ -47,9 +43,9 @@ function searchAfter(stringResult, search_String) {
     return ans;
 }
 function searchBefore(stringResult, searchString) {
-    let ans = "";
     let it = stringResult.lastIndexOf(searchString);
     it -= 2;
+    let ans = "";
     while (stringResult[it] != '\n') {
         ans += stringResult[it];
         it--;
@@ -62,19 +58,35 @@ function searchBefore(stringResult, searchString) {
 exports.fetchDetails = async (req, res) => {
     console.log(req.file)
     let file_path = req.file.path;
+
     try {
-        console.log("API CALL before ")
+        if (req.file.size > 2 * 1024 * 1024) {
+            return res.status(413).json({ error: 'File size exceeds 2MB limit' });
+        }
+
         let [result] = await client.textDetection(file_path);
         console.log("API CALL AFter Response")
 
         let stringResult = result.fullTextAnnotation.text;
         console.log(stringResult)
+
         const identificationNumber = searchBefore(stringResult, "Identification Number")
+        console.log("Ientification Numeber", identificationNumber);
+
         const name = searchAfter(stringResult, "Name");
+        console.log("Name ", name);
+
         const lastName = searchAfter(stringResult, "Last name");
+        console.log("lastName", lastName)
+
         const birthDate = searchAfter(stringResult, "Date of Birth");
+        console.log("birthDate", birthDate);
+
         const issueDate = searchBefore(stringResult, "Date of issue");
+        console.log("IssueDate", issueDate)
+
         const expiryDate = searchBefore(stringResult, "Date of Expiry");
+        console.log("expirydate", expiryDate);
 
 
         try {
@@ -94,27 +106,61 @@ exports.fetchDetails = async (req, res) => {
 }
 
 
-//===============================================================================================================
+//===================================================================================================
 
 
-exports.updateDetails = async (req,res)=>{
-    const {identification_number,name,last_name,date_of_birth,date_of_issue,date_of_expiry} = req.body;
+exports.updateDetails = async (req, res) => {
+    const { identification_number, name, last_name, date_of_birth, date_of_issue, date_of_expiry } = req.body;
     const newId = {}
-    newId.identification_number=identification_number;
-    newId.name=name;
-    newId.last_name=last_name;
-    newId.date_of_birth=date_of_birth;
-    newId.date_of_issue=date_of_issue;
-    newId.date_of_expiry=date_of_expiry
-    
+    newId.identification_number = identification_number;
+    newId.name = name;
+    newId.last_name = last_name;
+    newId.date_of_birth = date_of_birth;
+    newId.date_of_issue = date_of_issue;
+    newId.date_of_expiry = date_of_expiry
+
     try {
-    const idCard = await IdCard.findById(req.params.id)
-    if(!idCard){return res.status(401).res("Not Found")}
-    const updatedId = await IdCard.findByIdAndUpdate(req.params.id,{$set : newId},{new:true})
-    res.json(updatedId)
+        const idCard = await IdCard.findById(req.params.id)
+        if (!idCard) { return res.status(401).res("Not Found") }
+        const updatedId = await IdCard.findByIdAndUpdate(req.params.id, { $set: newId }, { new: true })
+        res.json(updatedId)
     } catch (error) {
         console.log(error.message)
         res.status(500).json("Internal server Error")
     }
 
 }
+
+
+//===================================================================================================
+
+
+exports.deleteDetails = async (req, res) => {
+    try {
+        const idCard = await IdCard.findById(req.params.id)
+        if (!idCard) { return res.status(401).res("Not Found") }
+
+        await IdCard.findByIdAndDelete(req.params.id)
+        res.status(400).send("Success, Details deleted Successfully")
+    }
+    catch (error) {
+        console.log(error.message)
+        res.status(500).json("Internal server Error")
+    }
+}
+
+
+//===================================================================================================
+
+
+exports.getAllDetails = async (req, res) => {
+    try {
+        const idCard = await IdCard.find({})
+        res.status(400).json(idCard)
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json("Internal server Error")
+    }
+}
+
+//===================================================================================================
