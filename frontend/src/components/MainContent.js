@@ -6,7 +6,7 @@ import InformationCard from './InformationCard'
 
 
 function MainContent() {
-
+  const [loading,setLoading]=useState(false);
   const [formData, setFormData] = useState({
     identification_number: "",
     name: "",
@@ -19,9 +19,9 @@ function MainContent() {
 
   return (
     <>
-      <div className='flex  h-[90vh] p-12  '>
-        <ImageUploader formData={formData} setFormData={setFormData} />
-        <InformationCard formData={formData} setFormData={setFormData}  />
+      <div className='flex mainContent  lg:h-[90vh] p-12 bg-[#ebf3ff] '>
+        <ImageUploader formData={formData} setFormData={setFormData} loading={loading} setLoading={setLoading}/>
+        <InformationCard formData={formData} setFormData={setFormData} loading={loading}  />
       </div>
     </>
   )

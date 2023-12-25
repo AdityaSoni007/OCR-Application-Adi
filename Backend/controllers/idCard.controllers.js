@@ -52,8 +52,7 @@ function searchBefore(stringResult, searchString) {
     it -= 2;   
     let ascii_i = stringResult.charCodeAt(it) ;
     let ascii_i1 = stringResult.charCodeAt(it-1) ;
-    // console.log("ascii_i",ascii_i);
-    // console.log("ascii_i1",ascii_i1);
+    
     
     let ans = "",reversed="";
     if ((ascii_i >= 48 && ascii_i <= 57)||(ascii_i1 >= 48 && ascii_i1 <= 57) ) {
@@ -140,8 +139,9 @@ exports.updateDetails = async (req, res) => {
 
     try {
         const idCard = await IdCard.findById(req.params.id)
-        if (!idCard) { return res.status(401).res("Not Found") }
-        const updatedId = await IdCard.findByIdAndUpdate(req.params.id, { $set: newId }, { new: true })
+        if (!idCard) { return res.status(401).json("Not Found") }
+        console.log("Hello");
+        const updatedId = await IdCard.findByIdAndUpdate({_id : req.params.id}, { $set: newId }, { new: true })
         res.json(updatedId)
     } catch (error) {
         console.log(error.message)
@@ -156,11 +156,24 @@ exports.updateDetails = async (req, res) => {
 
 exports.deleteDetails = async (req, res) => {
     try {
-        const idCard = await IdCard.findById(req.params.id)
-        if (!idCard) { return res.status(401).res("Not Found") }
+        console.log("Entry")
+        console.log(req.params.id)
+        const id = req.params.id
+        const idCard = await IdCard.findById({_id:id})
+        console.log(idCard)
+        
+        if (!idCard) {
+            return res.status(404).json({
+              success: false,
+              message: "Card not found",
+            })
+          }
 
-        await IdCard.findByIdAndDelete(req.params.id)
-        res.status(400).send("Success, Details deleted Successfully")
+        const newData = await IdCard.findByIdAndDelete({_id:id})
+        res.status(200).json({
+            success: true,
+            message: "ID Card deleted successfully",
+        });
     }
     catch (error) {
         console.log(error.message)
@@ -174,8 +187,10 @@ exports.deleteDetails = async (req, res) => {
 
 exports.getAllDetails = async (req, res) => {
     try {
+        console.log("Api Called")
         const idCard = await IdCard.find({})
-        res.status(400).json(idCard)
+        console.log("Api Called 2")
+        res.json(idCard);
     } catch (error) {
         console.log(error.message)
         res.status(500).json("Internal server Error")

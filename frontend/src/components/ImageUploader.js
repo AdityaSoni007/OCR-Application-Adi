@@ -3,10 +3,10 @@ import { apiConnector } from '../services/apiconnector'
 import { MdCloudUpload, MdDelete } from 'react-icons/md';
 import { toast } from 'react-hot-toast';
 
-const BASE_URL ="http://localhost:4000/api/v1/idCard";
+const BASE_URL = "http://localhost:4000/api/v1/idCard";
 
 
-function ImageUploader({ formData, setFormData }) {
+function ImageUploader({ setFormData, setLoading }) {
     const [file, setFile] = useState(null);
     const [image, setImage] = useState(null)
     const [fileName, setFileName] = useState(null);
@@ -14,29 +14,39 @@ function ImageUploader({ formData, setFormData }) {
 
     async function handleClick() {
 
-        if(!image){
-            toast.error("Please select File");
-            return;
-        }
-        const toastId = toast.loading("Loading...")
-        
 
-        const formDataa = new FormData();
-        formDataa.append('image', file)
-        const response = await apiConnector("POST", `${BASE_URL}/fetch`, formDataa);
+        try {
+            if (!image) {
+                toast.error("Please select File");
+                return;
+            }
+            setLoading(true);
+            const toastId = toast.loading("Loading...")
 
-        const newFormData = {
-            identification_number: response.data.identification_number,
-            name: response.data.name,
-            last_name: response.data.last_name,
-            date_of_birth: response.data.date_of_birth,
-            date_of_issue: response.data.date_of_issue,
-            date_of_expiry: response.data.date_of_expiry
+
+            const formDataa = new FormData();
+            formDataa.append('image', file)
+            const response = await apiConnector("POST", `${BASE_URL}/fetch`, formDataa);
+
+            const newFormData = {
+                identification_number: response.data.identification_number,
+                name: response.data.name,
+                last_name: response.data.last_name,
+                date_of_birth: response.data.date_of_birth,
+                date_of_issue: response.data.date_of_issue,
+                date_of_expiry: response.data.date_of_expiry
+            }
+            toast.dismiss(toastId)
+            toast.success("Success !!");
+            setLoading(false);
+            setFormData(newFormData)
+            console.log("Printing form data afetr api call", newFormData);
+
+        } catch (err) {
+            toast.error(err.message);
         }
-        toast.dismiss(toastId)
-        toast.success("Success");
-        setFormData(newFormData)
-        console.log("Printing form data afetr api call", newFormData);
+
+
 
     }
 
@@ -54,9 +64,9 @@ function ImageUploader({ formData, setFormData }) {
 
 
     return (
-        <div className=" flex flex-col w-[50%] ">
+        <div className=" flex flex-col md:w-[50%] ">
 
-            <form className="h-[80%] w-[100%] flex flex-col items-center justify-center outline-dashed outline-blue-400 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
+            <form className="sm:max-md:h-[50vh] md:h-[80%] md:w-[100%] flex flex-col items-center justify-center outline-dashed bg-[white] outline-blue-400 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
                 <input type="file" accept="image/png, image/jpg, image/jpeg" className="input-field" onChange={handleFileChange} hidden name="image" />
                 {image ? <img src={image} width={340} height={240} alt={fileName} /> :
                     <>
@@ -77,7 +87,7 @@ function ImageUploader({ formData, setFormData }) {
             </section>
 
             {/* BUTTON SECTION */}
-            <section className="mt-2 flex justify-center items-center p-4 bg-[#e9f0ff] w-[100%] gap-3">
+            <section className="mt-2 flex justify-center items-center p-4 bg-[white] w-[100%] gap-3">
 
 
                 <button type='submit' className=" w-[100%] text-white text-sm font-bold bg-[#ff933a] rounded-md flex items-center justify-center pl-[1rem] pr-[1rem] h-[2.5rem] hover:bg-[#ff6400] hover:shadow-md " onClick={handleClick}>Fetch Information</button>
@@ -88,8 +98,9 @@ function ImageUploader({ formData, setFormData }) {
                             toast.success("File Removed");
                             setFileName("No selected file");
                             setImage(null);
+                            setFormData({});
                         }
-                        else{
+                        else {
                             toast.error("Please Select File")
                         }
 
