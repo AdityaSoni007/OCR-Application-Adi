@@ -19,7 +19,7 @@ function MainContent() {
 
   return (
     <>
-      <div className='flex m-auto h-[90vh] p-12 border-2 border-black gap-5'>
+      <div className='flex  h-[90vh] p-12  '>
         <ImageUploader formData={formData} setFormData={setFormData} />
         <InformationCard formData={formData} setFormData={setFormData}  />
       </div>

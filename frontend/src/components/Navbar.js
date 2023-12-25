@@ -1,7 +1,12 @@
 import React from "react";
 import Button from "./Button";
-
+import { Navigate,Link } from "react-router-dom";
 function Navbar() {
+
+    const clickHandler = ()=>{
+
+    }
+
     return (
         <div>
                                    {/* NAVIGATION BAR */}
@@ -12,7 +17,7 @@ function Navbar() {
                 </div>
 
                 <div className="flex gap-x-2 justify-center items-center ">
-                    <Button title="History"></Button>
+                    <Link to='/allCard'><Button title="History" ></Button></Link>
                 </div>
             </nav>
 

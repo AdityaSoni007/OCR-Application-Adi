@@ -1,4 +1,3 @@
-
 const IdCard = require('../models/idCard.model')
 const vision = require('@google-cloud/vision');
 
@@ -36,6 +35,7 @@ function searchAfter(stringResult, search_String) {
     let ans = "";
     let index = stringResult.lastIndexOf(search_String);
     index += search_String.length + 1;
+
     while (stringResult[index] != '\n') {
         ans += stringResult[index];
         index++;
@@ -44,14 +44,33 @@ function searchAfter(stringResult, search_String) {
 }
 function searchBefore(stringResult, searchString) {
     let it = stringResult.lastIndexOf(searchString);
-    it -= 2;
-    let ans = "";
-    while (stringResult[it] != '\n') {
-        ans += stringResult[it];
-        it--;
+    if(it==-1){
+        searchString = "Date of issue";
+        return searchBefore(stringResult,searchString);
     }
-    console.log(ans);
-    let reversed = ans.split('').reduce((acc, char) => char + acc, '');;
+
+    it -= 2;   
+    let ascii_i = stringResult.charCodeAt(it) ;
+    let ascii_i1 = stringResult.charCodeAt(it-1) ;
+    // console.log("ascii_i",ascii_i);
+    // console.log("ascii_i1",ascii_i1);
+    
+    let ans = "",reversed="";
+    if ((ascii_i >= 48 && ascii_i <= 57)||(ascii_i1 >= 48 && ascii_i1 <= 57) ) {
+        while (stringResult[it] != '\n') {
+            ans += stringResult[it];
+            it--;
+        }
+        console.log(ans);
+        reversed = ans.split('').reduce((acc, char) => char + acc, '');
+    }
+    else{
+        if(searchString==="Identification Number")
+        reversed = searchAfter(stringResult, "Thai National ID Card");
+        else{
+            reversed = searchAfter(stringResult,searchString);
+        }
+    }
     return reversed;
 }
 
@@ -71,7 +90,7 @@ exports.fetchDetails = async (req, res) => {
         console.log(stringResult)
 
         const identificationNumber = searchBefore(stringResult, "Identification Number")
-        console.log("Ientification Numeber", identificationNumber);
+        console.log("Identification Number", identificationNumber);
 
         const name = searchAfter(stringResult, "Name");
         console.log("Name ", name);
@@ -82,7 +101,7 @@ exports.fetchDetails = async (req, res) => {
         const birthDate = searchAfter(stringResult, "Date of Birth");
         console.log("birthDate", birthDate);
 
-        const issueDate = searchBefore(stringResult, "Date of issue");
+        const issueDate = searchBefore(stringResult, "Date of Issue");
         console.log("IssueDate", issueDate)
 
         const expiryDate = searchBefore(stringResult, "Date of Expiry");
