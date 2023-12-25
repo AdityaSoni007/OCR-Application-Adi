@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import { apiConnector } from '../services/apiconnector'
 import { toast } from 'react-hot-toast';
 import UpdateModal from './UpdateModal';
-import { CiFilter } from "react-icons/ci";
+
 
 
 function AllCards() {
