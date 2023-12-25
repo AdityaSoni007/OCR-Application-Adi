@@ -3,7 +3,8 @@ import { apiConnector } from '../services/apiconnector'
 import { MdCloudUpload, MdDelete } from 'react-icons/md';
 import { toast } from 'react-hot-toast';
 
-const BASE_URL = "http://localhost:4000/api/v1/idCard";
+// const BASE_URL = "http://localhost:4000/api/v1/idCard";
+const BASE_URL = "https://ocr-application-backend.onrender.com/api/v1/idCard";
 
 
 function ImageUploader({ setFormData, setLoading }) {

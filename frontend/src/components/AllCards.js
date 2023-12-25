@@ -7,7 +7,8 @@ import UpdateModal from './UpdateModal';
 
 
 function AllCards() {
-    const BASE_URL = "http://localhost:4000/api/v1/idCard";
+    // const BASE_URL = "http://localhost:4000/api/v1/idCard";
+    const BASE_URL = "https://ocr-application-backend.onrender.com/api/v1/idCard";
     const [cardDetails, setCardDetails] = useState([{}]);
     const [load, setLoad] = useState(true);
     const [modal, setModal] = useState(false);
