@@ -38,8 +38,26 @@ The data structure should include relevant details like the OCR result, timestam
 3. Retrieve and Display OCR Data
 4. Delete OCR Records
 
+## API Endpoints
 
-#### JSON Output
+#### 1. Add OCR Record:
+
+ POST - https://ocr-application-backend.onrender.com/api/v1/idCard/fetch
+
+#### 2. Retrieve OCR Data:
+
+GET - https://ocr-application-backend.onrender.com/api/v1/idCard/getAllDetails
+
+#### 3. Update OCR Record:
+
+PUT - https://ocr-application-backend.onrender.com/api/v1/idCard/update/:id
+
+#### 4. Delete OCR Record:
+
+DELETE - https://ocr-application-backend.onrender.com/api/v1/idCard/delete/:id
+
+
+### JSON Output
 
 The final output should be a well-structured JSON object containing all the extracted data.
 
@@ -48,7 +66,7 @@ The final output should be a well-structured JSON object containing all the extr
 ### Frontend Deployment with Netlify 
 The frontend of the Thai ID Scanner & Data Keeper application is seamlessly deployed using Netlify. By connecting your GitHub repository to Netlify, every push triggers an automatic deployment, making the latest changes instantly accessible through a Netlify domain.
 
-#### LIVE LINK : https://ocr-application-frontend.netlify.app/
+#### LIVE LINK : https://ocr-application-v1.netlify.app
 
 ### Backend Deployment with Render
 The backend of the Thai ID Scanner & Data Keeper application is efficiently deployed using Render. Set up environment variables, clone the repository, and let Render handle the rest. The backend updates automatically with every push to the connected GitHub repository.
