@@ -18,7 +18,7 @@ function MainContent() {
 
   return (
     <>
-      <div className='flex mainContent lg:h-[95vh] p-12 bg-[#ebf3ff] '>
+      <div className='flex mainContent lg:h-[87vh] p-12 bg-[#ebf3ff] '>
         
         <ImageUploader formData={formData} setFormData={setFormData} loading={loading} setLoading={setLoading}/>
         <InformationCard formData={formData} loading={loading}  />
