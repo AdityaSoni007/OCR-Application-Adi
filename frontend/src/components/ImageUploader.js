@@ -65,11 +65,11 @@ function ImageUploader({ setFormData, setLoading }) {
 
 
     return (
-        <div className=" flex flex-col md:w-[50%] ">
+        <div className=" flex flex-col md:w-[50%] max-md:w-[100%] ">
 
-            <form className="sm:max-md:h-[50vh] md:h-[80%] md:w-[100%] flex flex-col items-center justify-center outline-dashed bg-[white] outline-blue-400 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
+            <form className="max-md:h-[50vh] md:h-[80%] flex flex-col items-center justify-center outline-dashed bg-[white] outline-blue-400 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
                 <input type="file" accept="image/png, image/jpg, image/jpeg" className="input-field" onChange={handleFileChange} hidden name="image" />
-                {image ? <img src={image} width={340} height={240} alt={fileName} /> :
+                {image ? <img src={image} width={280} height={180} alt={fileName} /> :
                     <>
                         <MdCloudUpload color='#1475cf' size={60} />
                         <p>Browse Files to upload</p>
@@ -82,8 +82,8 @@ function ImageUploader({ setFormData, setLoading }) {
 
             <section className=" mt-2 flex items-center p-4 bg-yellow-200 w-[100%]  tracking-wide gap-3 text-center"><img src="./assets/alert.svg" alt="alert icon" />
 
-                <span className="text-red-600 font-bold text-lg">NOTE: </span>
-                <span className="font-medium">File should not exceed 2MB </span>
+                <span className="text-red-600 font-bold ">NOTE: </span>
+                <span className="font-medium text-[90%]">File should not exceed 2MB </span>
 
             </section>
 

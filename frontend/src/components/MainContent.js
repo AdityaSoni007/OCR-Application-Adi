@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import ImageUploader from './ImageUploader'
 import InformationCard from './InformationCard'
+import Footer from './Footer';
 
 
 function MainContent() {
@@ -17,10 +18,13 @@ function MainContent() {
 
   return (
     <>
-      <div className='flex mainContent  lg:h-[90vh] p-12 bg-[#ebf3ff] '>
+      <div className='flex mainContent lg:h-[95vh] p-12 bg-[#ebf3ff] '>
+        
         <ImageUploader formData={formData} setFormData={setFormData} loading={loading} setLoading={setLoading}/>
         <InformationCard formData={formData} loading={loading}  />
+
       </div>
+      <Footer />
     </>
   )
 }

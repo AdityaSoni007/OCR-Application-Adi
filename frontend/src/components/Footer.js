@@ -4,7 +4,7 @@ function Footer() {
     return (
         <>
             
-            <div className="text-center bg-black text-white p-1" >Created with ❤️ by - Aditya Soni</div>
+            <div className="text-center bg-black text-white p-1" >Thai ID Card (OCR) | Created by - Aditya Soni</div>
         </>
     )
 }

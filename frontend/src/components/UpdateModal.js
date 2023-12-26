@@ -1,13 +1,15 @@
 import React from 'react'
 
-function UpdateModal({ handleUpdate, formData, handleChange }) {
+function UpdateModal({ handleUpdate, formData, handleChange,setModal }) {
 
     const cssAttributes= "rounded-sm bg-gray-200 border-b-2 border-gray-800 p-1 outline-none w-[50%]";
     const attributes ="text-[#79de82] text-lg font-semibold"
 
     return (
         <div className='fixed inset-0 z-[1000] mt-0 grid place-items-center overflow-auto backdrop-blur-sm' >
+            
             <form onSubmit={(e) => handleUpdate(formData._id, e)} className=' p-6 flex flex-col gap-y-5 border-2 border-black w-[50vw] shadow-black shadow-2xl bg-[#111827]'>
+                <h1 className=' text-white text-3xl font-semibold mb-3'>Update Details</h1>
                 <div className=" flex justify-between" ><label className={`${attributes}`}>"Identification Number" :</label>
                     <input
                         type="text"
@@ -52,7 +54,8 @@ function UpdateModal({ handleUpdate, formData, handleChange }) {
                     onChange={(e) => handleChange(e, "date_of_expiry")}
                     className= {`${cssAttributes}`}
                 /></div>
-                <button type="submit" className="text-white text-sm font-bold bg-[#ff933a] rounded-md flex items-center justify-center px-[0.5rem] h-[2.5rem] hover:bg-[#ff6400] hover:shadow-md" >Update</button>
+                <div className='flex items-center justify-end gap-2'><button type="submit" className="text-white text-sm font-bold bg-[#ff933a] rounded-md flex items-center justify-center px-[1.5rem] h-[2.5rem] hover:bg-[#ff6400] hover:shadow-md" >Update</button>
+                <button  className="text-white text-sm font-bold bg-[#1253a4] rounded-md flex items-center justify-center px-[1.5rem] h-[2.5rem] hover:shadow-md" onClick={()=>{setModal(false)}}>Back</button></div>
             </form>
         </div>
     )

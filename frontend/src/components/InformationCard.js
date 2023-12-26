@@ -1,4 +1,8 @@
 import React from 'react'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-hot-toast';
+import { FiClipboard } from "react-icons/fi";
+
 
 function InformationCard({ formData, loading }) {
 
@@ -40,7 +44,7 @@ function InformationCard({ formData, loading }) {
   return (
     <>
 
-      <div className="sm:max-md:gap-y-10 md:w-[50%] h-[100%] flex items-start justify-center ">
+      <div className=" md:w-[50%] h-[100%] max-md:w-[100vw] max-md:mt-5 flex items-start justify-center ">
 
 
         {
@@ -49,7 +53,10 @@ function InformationCard({ formData, loading }) {
           </div>) :
             (<div className="border-2 border-white bg-gray-900 p-12 w-[80%]">
 
-              <h1 className="text-[#ffffff] text-4xl font-bold text-center mb-5">JSON DATA</h1>
+              <div className="flex  justify-between items-start">
+                <h1 className="text-[#ffffff] text-3xl font-bold  mb-5">JSON DATA</h1>
+                <CopyToClipboard text={JSON.stringify(formData)}
+                  onCopy={() => toast.success("Copied to clipboard")}><button className='text-white  px-2 text-end'>< FiClipboard className='text-3xl hover:text-[#7bc4f4]' /></button></CopyToClipboard></div>
               <span className="text-yellow-500 text-xl font-bold mb-2">{bracket1} </span>
               {CardDetails.map((item) => (<p className={`${css_attribute}`}>"{item.label}" :
                 <span className="text-[#a5d6ff]">"{item.field}",</span>

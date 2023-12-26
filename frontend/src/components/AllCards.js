@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import { apiConnector } from '../services/apiconnector'
 import { toast } from 'react-hot-toast';
 import UpdateModal from './UpdateModal';
+import Footer from './Footer';
 
 
 
@@ -71,7 +72,8 @@ function AllCards() {
     const columns = [
         {
             name: "Identification Number",
-            selector: row => row.identification_number
+            selector: row => row.identification_number,
+            
         },
         {
             name: "Name",
@@ -87,17 +89,19 @@ function AllCards() {
         },
         {
             name: "Date-of-Issue",
-            selector: row => row.date_of_issue
+            selector: row => row.date_of_issue,
+            sortable: true
         },
         {
             name: "Date-of-Expiry",
-            selector: row => row.date_of_expiry
+            selector: row => row.date_of_expiry,
+            sortable: true
         },
         {
             name: "Action",
-            cell: (row) => (<div className='flex gap-x-2'><button className="text-white text-sm font-bold bg-[#d73939] rounded-md flex items-center justify-center px-[0.5rem]  h-[2.5rem] hover:bg-[#ff6b57] hover:shadow-md" onClick={() => { handleDelete(row) }}>Delete</button> <button className="text-white text-sm font-bold bg-[#ff933a] rounded-md flex items-center justify-center px-[0.5rem] h-[2.5rem] hover:bg-[#ff6400] hover:shadow-md" onClick={() => {
+            cell: (row) => (<div className='flex gap-x-2'> <button className="text-white text-sm font-bold bg-[#3ab3ff] rounded-md flex items-center justify-center px-[0.5rem] h-[2.5rem] hover:bg-[#0033ff] hover:shadow-md w-[5vw]" onClick={() => {
                 setModal(true); openUpdate(row)
-            }}> Update</button></div>)
+            }}> Update</button><button className="text-white text-sm font-bold bg-[#d73939] rounded-md flex items-center justify-center px-[0.5rem] w-[5vw] h-[2.5rem] hover:bg-[#ff6b57] hover:shadow-md" onClick={() => { handleDelete(row) }}>Delete</button></div>)
         }
 
     ]
@@ -184,14 +188,15 @@ function AllCards() {
                 return row.date_of_birth.toLowerCase().includes(event.target.value.toLowerCase())
             })
         }
-        if(event.target.value.toLowerCase()==""){
+        
+        if(event.target.value.toLowerCase()===""){
             setLoad(!load);
         }
         setCardDetails(newData)
     }
     return (
         <>
-            <div className='w-[95vw] h-[90vh] mx-auto mt-5 '>
+            <div className='w-[95vw] mx-auto h-[90vh] mt-5 '>
                 <div className="text-end flex items-center justify-end">
                     <div className='mr-2'>
                         <label htmlFor="filter"></label>
@@ -201,7 +206,7 @@ function AllCards() {
                             name="filter"
                             value={filter}
                             onChange={changeHandler}
-                            className="outline"
+                            className="outline p-1"
                         >
 
                             <option>identification_number</option>
@@ -215,7 +220,10 @@ function AllCards() {
                 <DataTable title="Thai ID Card details" fixedHeader columns={columns} data={cardDetails} pagination customStyles={tableHeaderStyle}></DataTable>
             </div>
 
-            {modal ? <UpdateModal handleUpdate={handleUpdate} formData={formData} handleChange={handleChange} /> : <></>}
+            {modal ? <UpdateModal setModal={setModal} handleUpdate={handleUpdate} formData={formData} handleChange={handleChange} /> : <></>}
+
+            
+            
         </>
     )
 }
