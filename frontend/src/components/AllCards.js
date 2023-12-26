@@ -6,12 +6,31 @@ import UpdateModal from './UpdateModal';
 
 
 
+
 function AllCards() {
     // const BASE_URL = "http://localhost:4000/api/v1/idCard";
     const BASE_URL = "https://ocr-application-backend.onrender.com/api/v1/idCard";
     const [cardDetails, setCardDetails] = useState([{}]);
     const [load, setLoad] = useState(true);
     const [modal, setModal] = useState(false);
+    
+    const [filter, setFilter] = useState('name')
+    const [formData, setFormData] = useState({
+        _id: "",
+        identification_number: "",
+        name: "",
+        last_name: "",
+        date_of_birth: "",
+        date_of_issue: "",
+        date_of_expiry: "",
+    });
+
+    //==================================== API Call for get card details ===========================================
+
+
+    useEffect(() => {
+        fetchApiResponse();
+    }, [load]);
 
     async function fetchApiResponse() {
         try {
@@ -23,9 +42,9 @@ function AllCards() {
         }
     }
 
-    useEffect(() => {
-        fetchApiResponse();
-    }, [load]);
+    //==============================================================================================================
+
+
 
     const handleDelete = async (row) => {
         try {
@@ -39,6 +58,15 @@ function AllCards() {
             toast.error(err.message);
         }
     }
+
+    const handleChange = (e, key) => {
+        setFormData({ ...formData, [key]: e.target.value });
+    };
+    const changeHandler = (e) => {
+        setFilter(e.target.value);
+    };
+
+    //==================================== Helper Variables for react tables =======================================
 
     const columns = [
         {
@@ -84,28 +112,17 @@ function AllCards() {
         }
     }
 
-    const [formData, setFormData] = useState({
-        _id: "",
-        identification_number: "",
-        name: "",
-        last_name: "",
-        date_of_birth: "",
-        date_of_issue: "",
-        date_of_expiry: "",
-    });
+    //==============================================================================================================
 
-    const handleChange = (e, key) => {
-        setFormData({ ...formData, [key]: e.target.value });
-    };
 
+
+
+    //==================================== Update details API Call  ===============================================
 
 
     const handleUpdate = async (id, e) => {
         e.preventDefault();
-
-
         try {
-
             await apiConnector("PUT", `${BASE_URL}/update/${id}`, JSON.stringify(formData), {
                 "Content-Type": "application/json",
             });
@@ -117,9 +134,6 @@ function AllCards() {
             console.log(err.message);
             toast.error(err.message);
         }
-
-
-
         setFormData({
             _id: "",
             identification_number: "",
@@ -130,6 +144,8 @@ function AllCards() {
             date_of_expiry: "",
         })
     };
+
+    //==============================================================================================================
 
 
     const openUpdate = async (item) => {
@@ -145,30 +161,54 @@ function AllCards() {
             behavior: "smooth"
         })
     }
-   
-
-
-
-
-
-
-
-    const [records, setRecords] = useState(cardDetails);
+    
     function handleFilter(event) {
-        const newData = cardDetails.filter(row => {
-            return row.name.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setRecords(newData)
+        let newData;
+        if (filter === "identification_number") {
+            newData = cardDetails.filter(row => {
+                return row.identification_number.toLowerCase().includes(event.target.value.toLowerCase())
+            })
+        }
+        if (filter === "name") {
+            newData = cardDetails.filter(row => {
+                return row.name.toLowerCase().includes(event.target.value.toLowerCase())
+            })
+        }
+        if (filter === "last_name") {
+            newData = cardDetails.filter(row => {
+                return row.last_name.toLowerCase().includes(event.target.value.toLowerCase())
+            })
+        }
+        if (filter === "date_of_birth") {
+            newData = cardDetails.filter(row => {
+                return row.date_of_birth.toLowerCase().includes(event.target.value.toLowerCase())
+            })
+        }
+        // setRecords(newData)
         setCardDetails(newData)
     }
     return (
         <>
-            <div className='w-[90vw] h-[90vh] mx-auto mt-5 '>
-                <div className="text-end">
+            <div className='w-[95vw] h-[90vh] mx-auto mt-5 '>
+                <div className="text-end flex items-center justify-end">
+                    <div className='mr-2'>
+                        <label htmlFor="filter"></label>
 
-                  
-                    <input type="text" className='border-2 border-black outline-none p-1' placeholder={`Filter by Name`} onChange={handleFilter} />
+                        <select
+                            id="filter"
+                            name="filter"
+                            value={filter}
+                            onChange={changeHandler}
+                            className="outline"
+                        >
 
+                            <option>identification_number</option>
+                            <option>name</option>
+                            <option>last_name</option>
+                            <option>date_of_birth</option>
+                        </select>
+                    </div>
+                    <input type="text" className='border-2 border-black outline-none p-1 w-[20vw]' placeholder={`Filter by ${filter}`} onChange={handleFilter} />
                 </div>
                 <DataTable title="Thai ID Card details" fixedHeader columns={columns} data={cardDetails} pagination customStyles={tableHeaderStyle}></DataTable>
             </div>

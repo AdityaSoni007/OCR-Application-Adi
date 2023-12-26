@@ -4,7 +4,7 @@ import Footer from './components/Footer'
 import MainContent from './components/MainContent';
 import AllCards from './components/AllCards';
 import { Route, Routes } from "react-router-dom";
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
 
@@ -14,11 +14,7 @@ function App() {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 700);
     };
-
-    
     window.addEventListener('resize', handleResize);
-
-    
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -27,17 +23,15 @@ function App() {
 
   return (
     <>
-       {isMobile ? (
+      {isMobile ? (
         <p className='text-center' >Mobile Version of this Application is Under Construction.... Kindly use Tablet or desktop for viewing</p>
       ) : (<div>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<MainContent />}></Route>
-        <Route path="/allCards" element={<AllCards />}></Route>
-      </Routes>
-      <Footer /></div>)}
-
-
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<MainContent />}></Route>
+          <Route path="/allCards" element={<AllCards />}></Route>
+        </Routes>
+        <Footer /></div>)}
     </>
   );
 }
