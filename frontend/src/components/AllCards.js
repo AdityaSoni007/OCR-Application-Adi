@@ -184,7 +184,9 @@ function AllCards() {
                 return row.date_of_birth.toLowerCase().includes(event.target.value.toLowerCase())
             })
         }
-        // setRecords(newData)
+        if(event.target.value.toLowerCase()==""){
+            setLoad(!load);
+        }
         setCardDetails(newData)
     }
     return (
