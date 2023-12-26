@@ -66,7 +66,7 @@ The final output should be a well-structured JSON object containing all the extr
 ### Frontend Deployment with Netlify 
 The frontend of the Thai ID Scanner & Data Keeper application is seamlessly deployed using Netlify. By connecting your GitHub repository to Netlify, every push triggers an automatic deployment, making the latest changes instantly accessible through a Netlify domain.
 
-#### LIVE LINK : https://ocr-application-v1.netlify.app
+#### LIVE LINK : https://ocr-app-v1.netlify.app
 
 ### Backend Deployment with Render
 The backend of the Thai ID Scanner & Data Keeper application is efficiently deployed using Render. Set up environment variables, clone the repository, and let Render handle the rest. The backend updates automatically with every push to the connected GitHub repository.
