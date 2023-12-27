@@ -73,12 +73,14 @@ The final output should be a well-structured JSON object containing all the extr
 ## API Response
 ![Screenshot (268)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/cc9771f0-74d5-4e18-93fb-018bd37b866b)
 
-## All Card details
+## All Card details (with Update and delete options)
 ![Screenshot (269)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/3612992d-c6d6-451e-84c7-b5f75b8a14e7)
 
 ## Update Details 
 ![Screenshot (270)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/57d5861f-5c31-4d3c-9780-924be8399820)
 
+## Filtering Option ( on the basis of Identification number,name,last name and DOB)
+![Screenshot (271)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/c127e735-4eb3-4afd-8e6a-9eb2ca1e9ac4)
 
 # Deployment
 
