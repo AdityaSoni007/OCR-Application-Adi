@@ -61,6 +61,25 @@ DELETE - https://ocr-application-backend.onrender.com/api/v1/idCard/delete/:id
 
 The final output should be a well-structured JSON object containing all the extracted data.
 
+
+# Demo of Website using Screenshots
+
+## Landing Page 
+![Screenshot (266)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/b1659798-93b2-4d28-9506-4c206af27b2a)
+
+## Fetching Details
+![Screenshot (267)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/e22d6536-e5d4-4af4-8736-b925c3aa79e8)
+
+## API Response
+![Screenshot (268)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/cc9771f0-74d5-4e18-93fb-018bd37b866b)
+
+## All Card details
+![Screenshot (269)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/3612992d-c6d6-451e-84c7-b5f75b8a14e7)
+
+## Update Details 
+![Screenshot (270)](https://github.com/AdityaSoni007/OCR-Application-Adi/assets/89586938/57d5861f-5c31-4d3c-9780-924be8399820)
+
+
 # Deployment
 
 ### Frontend Deployment with Netlify 
